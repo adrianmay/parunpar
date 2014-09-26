@@ -1,3 +1,5 @@
+//Run me with "node.js test/test.js"
+
 var P = require('../src/parunpar.js')
 
 var one_pp = P.tuple([P.string_pp, P.string_pp])

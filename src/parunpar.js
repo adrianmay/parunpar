@@ -1,3 +1,10 @@
+//This is for efficiently serialising objects you know the contents of.
+
+//It's not a JSON replacement. It's for when you want to control exactly 
+//  how things are encoded, want to do that hierarchially, and want to 
+//  write the en- and decoding code near each other for each bit of the
+//  hierarchy.
+
 "use strict"
 
 //Functional basics...

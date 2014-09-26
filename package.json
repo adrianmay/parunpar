@@ -1,6 +1,6 @@
 {
   "name": "parunpar",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Efficiently serialises objects you know the contents of",
   "main": "parunpar.min.js",
   "directories": {
@@ -10,8 +10,7 @@
     "type": "git",
     "url": "https://github.com/adrianmay/parunpar.git"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "Adrian May",
   "license": "MIT",
   "bugs": {
@@ -24,6 +23,5 @@
     "grunt-contrib-uglify": "^0.5.1",
     "seedrandom": "^2.3.6"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

@@ -1,0 +1,1 @@
+global.Parunpar = require('./parunpar');

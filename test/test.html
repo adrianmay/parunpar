@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<script src='../parunpar.min.js'></script>
+<script>
+
+var left_l_pp = Parunpar.pipe(
+    function (dir) { return function (x) { 
+      return dir ? ( 
+          Parunpar.runSnd({ 
+            string:['$', Parunpar.id], 
+            number:['#',function(x){return x.toString()}], 
+            boolean:['?',function (x) {return x?'t':'f'}], 
+            'null':['~'], 
+            'undefined':['_']
+          }[Parunpar.typeOf(x)])(x) 
+          ) 
+        : 
+          (  { 
+            '$': Parunpar.id, 
+            '#': Number, 
+            '?': Parunpar.eq('true'), 
+            '~': Parunpar.konst(null), 
+            '_': Parunpar.konst(undefined) 
+          }[x[0]](x[1]))
+    }}
+    )(Parunpar.fixedWidth([1])([Parunpar.string_pp, Parunpar.string_pp]));
+
+var tests = [
+  [left_l_pp, 321 ],
+  [left_l_pp, true ],
+  [left_l_pp, false ],
+  [left_l_pp, "popeye" ],
+  [left_l_pp, null],
+  [left_l_pp, undefined],
+]
+
+function go() {
+  var res = '';
+  document.getElementById('stage').innerHTML = function() {
+    for (var i=0;i<tests.length;i++) {
+      var t = tests[i];
+      res += t[1] + '\n';
+      var e = t[0](true)(t[1]);
+      res += e + '\n';
+      var r = t[0](false)(e);
+      res += r + '\n';
+      res += "============" + '\n';
+    }
+    return res;
+  }();
+}
+</script>
+<body onLoad='go();'>
+  <pre id='stage'> 
+  </pre>
+</body>

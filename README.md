@@ -1,4 +1,11 @@
 parunpar
 ========
 
-Efficiently serialises objects you know the contents of
+There are three goals here:
+
+1. Show how much fun functional javascript can be
+2. Efficiently serialise objects you know the contents of
+3. Make the name "rhaboo" sound sensible by comparison
+
+
+

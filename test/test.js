@@ -1,27 +1,28 @@
+var P = require('../src/parunpar.js')
 
-var one_pp = tuple([string_pp, string_pp])
-var multi_pp = tuple([one_pp, one_pp])
-var super_pp = tuple([multi_pp, multi_pp])
+var one_pp = P.tuple([P.string_pp, P.string_pp])
+var multi_pp = P.tuple([one_pp, one_pp])
+var super_pp = P.tuple([multi_pp, multi_pp])
 
-var right_pp = tuple([string_pp, number_pp])
-var left_o_raw_pp = tuple([string_pp, number_pp])
-var left_l_raw_pp = fixedWidth([1])([string_pp, string_pp])
-var slot_pp  = tuple([string_pp, right_pp]);
-var left_o_pp = pipe(
+var right_pp = P.tuple([P.string_pp, P.number_pp])
+var left_o_raw_pp = P.tuple([P.string_pp, P.number_pp])
+var left_l_raw_pp = P.fixedWidth([1])([P.string_pp, P.string_pp])
+var slot_pp  = P.tuple([P.string_pp, right_pp]);
+var left_o_pp = P.pipe(
   function (dir) { return function (x) { 
     return dir ? (x.length!==undefined ? [x.constructor.name, x.length] : [x.constructor.name]) 
                : (x[1]!==undefined ? global[x[0]](x[1]) : global[x[0]]() ) 
   }}
 )(left_o_raw_pp);
-var left_l_pp = pipe(
+var left_l_pp = P.pipe(
   function (dir) { return function (x) { 
-    return dir ? ( runSnd({ string:['$', id], number:['#',function(x){return x.toString()}], boolean:['?',function (x) {return x?'t':'f'}], 'null':['~'], 'undefined':['_']}[typeOf(x)])(x) )
-               : (  { '$': id, '#': Number, '?': eq('true'), '~':konst(null), '_':konst(undefined) }[x[0]](x[1]))
+    return dir ? ( P.runSnd({ string:['$', P.id], number:['#',function(x){return x.toString()}], boolean:['?',function (x) {return x?'t':'f'}], 'null':['~'], 'undefined':['_']}[P.typeOf(x)])(x) )
+               : (  { '$': P.id, '#': Number, '?': P.eq('true'), '~':P.konst(null), '_':P.konst(undefined) }[x[0]](x[1]))
   }}
 )(left_l_raw_pp);
 
 var tests = [
-  [number_pp, 321 ],
+  [P.number_pp, 321 ],
   [right_pp, ["ba;r",456] ],
   [left_o_raw_pp, ["Object"] ],
 //  [left_o_raw_pp, ["Object",undefined] ],
@@ -53,5 +54,6 @@ for (var i=0;i<tests.length;i++) {
   console.log("============");
 }
 
-console.log(chop([1,4,3,5])('IWentOutDoing'));
-console.log(chop([1,4,3,5])('IWentOutDoingNothing'));
+console.log(P.chop([1,4,3,5])('IWentOutDoing'));
+console.log(P.chop([1,4,3,5])('IWentOutDoingNothing'));
+

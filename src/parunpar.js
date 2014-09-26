@@ -49,5 +49,8 @@ var pipe = function (p1) { return function (p2) { return function (dir) { return
   return dir ? p2(dir)(p1(dir)(x)) : p1(dir)(p2(dir)(x)) ;
 }}}}
 
-
+module.exports = { typeOf:typeOf, id:id, konst:konst, eq:eq, map:map, runSnd:runSnd, 
+  string_pp:string_pp, number_pp:number_pp, boolean_pp:boolean_pp, null_pp:null_pp, 
+  undefined_pp:undefined_pp, thru:thru, chop:chop, fixedWidth:fixedWidth, sepBy:sepBy, 
+  escape:escape, sepByEsc:sepByEsc, tuple:tuple, pipe:pipe  }
 

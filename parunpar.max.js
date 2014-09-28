@@ -29,7 +29,7 @@ var thru = function (dir) { return function (ps) { return function (xs) {
 //  pp(true)( pp(false)(x) ) === x
 
 //Fundamental parunpars...
-var string_pp    = function (dir) { return function (x)  { return x; }}
+var string_pp    = function (dir) { return function (x)  { return x.toString(); }}
 var number_pp    = function (dir) { return function (x)  { return dir ? x.toString() : Number(x); }}
 var boolean_pp   = function (dir) { return function (x)  { return dir ? (x ? 't' : 'f') : (x==='t'); }}
 var null_pp      = function (dir) { return function (x)  { return dir ? '' : null; }}

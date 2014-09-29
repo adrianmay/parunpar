@@ -40,12 +40,12 @@ var pipe = function (p1) { return function (p2) { return function (dir) { return
   return dir ? p2(dir)(p1(dir)(x)) : p1(dir)(p2(dir)(x)) ;
 }}}}
 
-//Chops a string into fields by column widths. If string is longer than sum of columns, the rest forms a final field.
+//Chops a string into fields by column widths. Result always has cols.length+1 elements.
 var chop = function(cols) { return function (s) {
   var res = [], i=0;
   for ( var i=0; i<cols.length && s.length; s=s.substring(cols[i++]) )
     res.push(s.substring(0, cols[i]));
-  if (s.length) res.push(s);  
+  res.push(s);  
   return res;
 }}
 

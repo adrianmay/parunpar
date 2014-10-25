@@ -38,6 +38,7 @@ var tests = [
   [super_pp, [[[';one','t;wo'],['thr;ee','four;']],[['/five','s/ix'],['sev/en','eight/']]] ],
   [left_o_pp, [1,2,4,5] ],
   [left_o_pp, { foo:2, bar:3 }],
+  [left_o_pp, {}],
   [left_l_pp, 321 ],
   [left_l_pp, true ],
   [left_l_pp, false ],

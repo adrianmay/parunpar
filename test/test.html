@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
-<script src='../parunpar.min.js'></script>
+<script src='../parunpar.max.js'></script>
 <script>
-
+/*
 var left_l_pp = Parunpar.pipe(
     function (dir) { return function (x) { 
       return dir ? ( 
@@ -33,6 +33,53 @@ var tests = [
   [left_l_pp, null],
   [left_l_pp, undefined],
 ]
+*/
+
+var one_pp = Parunpar.tuple([Parunpar.string_pp, Parunpar.string_pp])
+var multi_pp = Parunpar.tuple([one_pp, one_pp])
+var super_pp = Parunpar.tuple([multi_pp, multi_pp])
+
+var right_pp = Parunpar.tuple([Parunpar.string_pp, Parunpar.number_pp])
+var left_o_raw_pp = Parunpar.tuple([Parunpar.string_pp, Parunpar.number_pp])
+var left_l_raw_pp = Parunpar.fixedWidth([1])([Parunpar.string_pp, Parunpar.string_pp])
+var slot_pp  = Parunpar.tuple([Parunpar.string_pp, right_pp]);
+var left_o_pp = Parunpar.pipe(
+  function (dir) { return function (x) { 
+    return dir ? (x.length!==undefined ? [x.constructor.name, x.length] : [x.constructor.name]) 
+               : (x[1]!==undefined ? global[x[0]](x[1]) : global[x[0]]() ) 
+  }}
+)(left_o_raw_pp);
+var left_l_pp = Parunpar.pipe(
+  function (dir) { return function (x) { 
+    return dir ? ( Parunpar.runSnd({ string:['$', Parunpar.id], number:['#',function(x){return x.toString()}], boolean:['?',function (x) {return x?'t':'f'}], 'null':['~'], 'undefined':['_']}[Parunpar.typeOf(x)])(x) )
+               : (  { '$': Parunpar.id, '#': Number, '?': Parunpar.eq('true'), '~':Parunpar.konst(null), '_':Parunpar.konst(undefined) }[x[0]](x[1]))
+  }}
+)(left_l_raw_pp);
+
+var tests = [
+  [Parunpar.number_pp, 321 ],
+  [right_pp, ["ba;r",456] ],
+  [left_o_raw_pp, ["Object"] ],
+//  [left_o_raw_pp, ["Object",undefined] ],
+  [left_o_raw_pp, ["Array",456] ],
+  [left_l_raw_pp, ["#",'foo'] ],
+  [slot_pp, ['freddy',["ba;r",456]] ],
+  [multi_pp, [['one','two'],['three','four']] ],
+  [multi_pp, [['on;e','two'],['three','four']] ],
+  [multi_pp, [[';one','t;wo'],['thr;ee','four;']] ],
+  [multi_pp, [['/one','t/wo'],['thr/ee','four/']] ],
+  [super_pp, [[[';one','t;wo'],['thr;ee','four;']],[['/five','s/ix'],['sev/en','eight/']]] ],
+  [left_o_pp, [1,2,4,5] ],
+  [left_o_pp, { foo:2, bar:3 }],
+  [left_o_pp, {}],
+  [left_l_pp, 321 ],
+  [left_l_pp, true ],
+  [left_l_pp, false ],
+  [left_l_pp, "popeye" ],
+  [left_l_pp, null],
+  [left_l_pp, undefined],
+]
+
 
 function go() {
   var res = '';

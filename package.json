@@ -1,6 +1,6 @@
 {
   "name": "parunpar",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Efficiently serialises objects you know the contents of",
   "main": "src/parunpar.js",
   "directories": {

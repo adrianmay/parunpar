@@ -15,18 +15,22 @@ var konst = function(k) { return function (x) {return k;}}
 var eq = function(a) { return function (b) { return a===b; }}
 var map = function (horse) { return function (cart) { return cart.map(horse); }}
 
+//A parunpar is a function of boolean that returns an encoder or decoder for true and false respectively.
+//A valid one obeys the laws:
+//  pp(false)( pp(true)(x) ) === x
+//  pp(true)( pp(false)(x) ) === x
+
 //Slightly less basic...
+
+//Pass one or two parunpars in an array. If the second exists, the returned function runs its parameter through it. The first parunpar just carries through
 var runSnd = function(fs) { return function (x) { return fs[1]!==undefined ? [fs[0], fs[1](x)] : [fs[0]]}}
+//Pass a direction, an array of parunpars and an array of values. The result is an array or corresponding parunpars applied to the values. 
+//If the lengths differ, the result is truncated
 var thru = function (dir) { return function (ps) { return function (xs) {  
   var res = [];
   for (var i=0; i<ps.length && i<xs.length; i++) res[i] = ps[i](dir)(xs[i]);
   return res;
 }}}
-
-//A parunpar is a function of boolean that returns an encoder or decoder for true and false respectively.
-//A valid one obeys the laws:
-//  pp(false)( pp(true)(x) ) === x
-//  pp(true)( pp(false)(x) ) === x
 
 //Template
 var id_pp    = function (dir) { return dir ? function (x) { return x; } : function (x) { return x; } ;}
